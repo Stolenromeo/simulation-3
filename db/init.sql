@@ -12,6 +12,9 @@ CREATE TABLE posts (
 	content TEXT,
 	author_id integer references Users
 );
- --I don't know if this is technically an alter table statement, but I did alter the table with it.
-CREATE UNIQUE INDEX on users (username)
---I think you can also use ALTER TABLE users ADD UNIQUE (username) to get it to function if that is better.
+
+ALTER TABLE users
+ADD COLUMN author TEXT;
+
+CREATE UNIQUE INDEX on users (username);
+

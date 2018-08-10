@@ -1,3 +1,3 @@
-INSERT INTO users (username, password)
-VALUES (${username}, ${password})
+INSERT INTO users (author, username, profile_pic)
+VALUES (${sub} ${name}, ${picture})
 RETURNING *;

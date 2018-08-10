@@ -23,42 +23,44 @@ class Auth extends Component {
 	pwChange(e){this.setState({password: e.target.value})}
 
 	login(){
-		// let auth0domain = `https://${process.env.REACT_APP_AUTH0_DOMAIN}`
-		// let clientId = process.env.REACT_APP_AUTH0_CLIENT_ID;
-		// let scope = encodeURIComponent("openid profile email")
-		// let redirectUri = encodeURIComponent(`${window.location.origin}/auth/callback`)
-	
-		// let location = `${auth0domain}/authorize?client_id=${clientId}&scope=${scope}&redirect_uri=${redirectUri}&response_type=code`
-	
-		// window.location = location
 		let { username, password } = this.state
 		let user = {username, password};
 
 		  axios.post('/api/user', {user}).then(res=>{
+				let user = {}
 			  if(res.data[0]){
-				  let {id, username, profile_pic} = res.data[0]
-				  console.log(id, username, profile_pic)
-			 	setUser(id, username, profile_pic)
-			    // this.props.history.push('/dashboard')
+					this.props.history.push('/dashboard')
+					user = res.data[0]
 			  } else {
-				  alert('username and password do not match')
+					alert('username and password do not match')
 			  }
-		})
+				setUser(user)
+			})
+		}
 
-	  }
+		loginWithAuth=()=>{
+		let auth0domain = `https://${process.env.REACT_APP_AUTH0_DOMAIN}`
+		let clientId = process.env.REACT_APP_AUTH0_CLIENT_ID;
+		let scope = encodeURIComponent("openid profile email")
+		let redirectUri = encodeURIComponent(`${window.location.origin}/auth/callback`)
+	
+		let location = `${auth0domain}/authorize?client_id=${clientId}&scope=${scope}&redirect_uri=${redirectUri}&response_type=code`
+	
+		window.location = location
+		}
+
 	  register=()=>{
 		  let { username, password } = this.state
-		  let user = {username, password};
-		  axios.post('/api/users', {user}).then(res=>{
+			let user = {username, password};
+			axios.post('/api/users', {user}).then(res=>{
 			if(!!username && !!password){
 			  if(res.data[0]){
-				setUser(res.data)
-				  this.props.history.push('/dashboard')
+					this.props.history.push('/dashboard')
 				} else {
 					alert('That username is already taken')
 				}
 			}
-		  })
+		})
 	  }
 
 	render(){
@@ -69,6 +71,7 @@ class Auth extends Component {
 				<input type='text' placeholder='password' value={this.state.password} onChange={this.pwChange}/>
 				<button onClick={this.login}>Login</button>
 				<button onClick={this.register}>Register</button>
+				<button onClick={this.loginWithAuth}>Log in with Auth0</button>
 			</div>
 		)
 	}

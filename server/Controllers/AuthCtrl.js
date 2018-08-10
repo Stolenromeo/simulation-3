@@ -21,7 +21,7 @@ module.exports = {
 			let userInfo = userInfoResponse.data;
 			let db = req.app.get('db')
 
-			let users = await db.findUserByAuthid(userInfo.sub)
+			let users = await db.findUserById(userInfo.sub)
 
 			if (users.length){
 				req.session.user= users[0]

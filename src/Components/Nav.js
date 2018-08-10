@@ -3,8 +3,8 @@ import { Link, withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
 
 function Nav (props){
-	if(props.location.pathname=="/"){
-		console.log(props.location)
+	// console.log(props.username, '1111223424')
+	if(props.location.pathname==="/"){
 		return ( <div></div>)
 	} else{
 		return (
@@ -12,6 +12,7 @@ function Nav (props){
 				<Link to='/'><button>Home</button></Link>
 				<Link to='/new'><button>New Post</button></Link>
 				<Link to='/'><button onClick={()=>alert("Goodbye")}> Logout </button></Link>
+				{/* {`1111111${props.username}`} */}
 			</div>
 		)
 	}

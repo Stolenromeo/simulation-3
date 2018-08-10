@@ -26,23 +26,23 @@ app.use(express.static(`${__dirname}/../build`))// USE AT THE END OF YOUR DEVELO
 
 
 
-// app.get('/auth/callback', AuthCtrl.auth)
+app.get('/auth/callback', AuthCtrl.auth)
 
-// app.get('/api/currentUser', (req, res)=>{
-// 	res.send(req.session.user)
-// })
-// app.get('api/logout', (req, res)=> {
-// 	req.session.destroy()
-// 	res.sendStatus(200)
-// })
+app.get('/api/currentUser', (req, res)=>{
+	res.send(req.session.user)
+})
+app.get('api/logout', (req, res)=> {
+	req.session.destroy()
+	res.sendStatus(200)
+})
 
-// app.get('/*', function(req, res) {
-// 	res.sendFile(path.join(__dirname, '../build/index.html'), function(err) {
-// 	  if (err) {
-// 		res.status(500).send(err)
-// 	  }
-// 	})
-//   })
+app.get('/*', function(req, res) {
+	res.sendFile(path.join(__dirname, '../build/index.html'), function(err) {
+	  if (err) {
+		res.status(500).send(err)
+	  }
+	})
+  })
 
 app.post('/api/users', UserCtrl.createUser)
 app.post('/api/user', UserCtrl.login)
