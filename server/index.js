@@ -2,7 +2,7 @@ const express = require('express'),
 	  massive = require('massive'),
 	  bodyPar = require('body-parser'),
 	  session = require('express-session'),
-	  UCTRL = require('./Controllers/UserCtrl');
+	  UserCtrl = require('./Controllers/UserCtrl');
 	//   AuthCtrl = require('./Controllers/AuthCtrl') ;
 	  require('dotenv').config()
 
@@ -24,8 +24,7 @@ app.use(session({
 
 app.use(express.static(`${__dirname}/../build`))// USE AT THE END OF YOUR DEVELOPMENT TO GET THE APP RUNNING ON ONE LOCATION!!!
 
-app.post('/api/users', UCTRL.createUser)
-app.post('/api/user', UCTRL.login)
+
 
 // app.get('/auth/callback', AuthCtrl.auth)
 
@@ -45,7 +44,8 @@ app.post('/api/user', UCTRL.login)
 // 	})
 //   })
 
-
+app.post('/api/users', UserCtrl.createUser)
+app.post('/api/user', UserCtrl.login)
 
 app.listen(port, ()=> {
 	console.log('Narwal, Narwal, swimming in the Ocean', port)

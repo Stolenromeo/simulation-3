@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import axios from 'axios'
-// import { withRouter } from 'react-router-dom'
+import { connect } from 'react-redux'
+import { setUser } from '../ducks/reducer'
 
 class Auth extends Component {
 	constructor(props){
@@ -34,19 +35,29 @@ class Auth extends Component {
 		let user = {username, password};
 
 		  axios.post('/api/user', {user}).then(res=>{
-		  this.props.history.push('/dashboard')
+			  if(res.data[0]){
+				  let {id, username, profile_pic} = res.data[0]
+				  console.log(id, username, profile_pic)
+			 	setUser(id, username, profile_pic)
+			    // this.props.history.push('/dashboard')
+			  } else {
+				  alert('username and password do not match')
+			  }
 		})
 
 	  }
-
-
-
 	  register=()=>{
 		  let { username, password } = this.state
 		  let user = {username, password};
-
-		    axios.post('/api/users', {user}).then(res=>{
-			this.props.history.push('/dashboard')
+		  axios.post('/api/users', {user}).then(res=>{
+			if(!!username && !!password){
+			  if(res.data[0]){
+				setUser(res.data)
+				  this.props.history.push('/dashboard')
+				} else {
+					alert('That username is already taken')
+				}
+			}
 		  })
 	  }
 
@@ -63,4 +74,4 @@ class Auth extends Component {
 	}
 }
 
-export default Auth
+export default connect(null,setUser)(Auth)

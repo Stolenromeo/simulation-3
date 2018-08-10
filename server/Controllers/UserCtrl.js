@@ -1,23 +1,23 @@
 module.exports= {
 	createUser: (req, res) => {
-		let { username, password } = req.body;
 		let db = req.app.get('db')
+		let { username, password } = req.body;
 		let user = {username, password};
 		db.createUser(user).then(resp=>{
 			res.status(200).send(resp)
-		}).catch(err=>{console.log(err)
-		res.send('No duplicate Users')
 		})
 	},
-	login: (req, res) => {
-		let { username, password} = req.body;
+	login: async (req, res) => {
+		let { username, password} = req.body.user;
 		let db = req.app.get('db');
-		let user = { username, password};
-		db.getUserInfo(user).then(resp=>{
-			res.status(200).send(resp)
-		}).catch(err=>{
-			console.log(err,2222)
-			res.send('You have not Registered')
-		})
+		if(username && password){
+			db.getUserInfo({username, password}).then(resp=>{ 
+				if(resp){
+				res.status(200).send(resp)
+				} else {
+					res.sendStatus(200)
+				}
+			}).catch(err=>console.log('error getting user', err))
+		}
 	}
 }
